@@ -79,4 +79,4 @@ The [example](example/lib/basic2/main.dart).
 
 # Known issue
 
-- Back and Forward button on web does not work (setNewRoutePath is not called) for some reason.
+- Back and Forward button on web does not work (setNewRoutePath is not called) for some reason. -> This bug was in Flutter framework side, which has already fixed at "Flutter 1.26.0-18.0.pre.128 • channel master".
