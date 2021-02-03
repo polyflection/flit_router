@@ -87,7 +87,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0-nullsafety.3"
+    version: "2.1.5"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -138,11 +138,9 @@ packages:
   trie_router:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "10539f00ac6977c3af7245fa0161efd9227b5450"
-      url: "https://github.com/ntaoo/trie_router"
-    source: git
+      name: trie_router
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.0.1"
   tuple:
     dependency: "direct main"
@@ -150,7 +148,7 @@ packages:
       name: tuple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0-nullsafety.0"
+    version: "1.0.3"
   typed_data:
     dependency: transitive
     description:
@@ -166,5 +164,5 @@ packages:
     source: hosted
     version: "2.1.0-nullsafety.5"
 sdks:
-  dart: ">=2.12.0-133.7.beta <3.0.0"
+  dart: ">=2.12.0-0.0 <3.0.0"
   flutter: ">=1.17.0"

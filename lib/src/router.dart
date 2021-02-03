@@ -12,7 +12,7 @@ typedef AppBuilder = Widget Function(
 
 class FlitRootRouter extends StatefulWidget {
   FlitRootRouter(
-      {Key? key, required FlitRoutes routes, required AppBuilder appBuilder})
+      {Key key, @required FlitRoutes routes, @required AppBuilder appBuilder})
       : _routes = routes,
         _appBuilder = appBuilder,
         super(key: key);
@@ -24,7 +24,7 @@ class FlitRootRouter extends StatefulWidget {
   _FlitRootRouterState createState() => _FlitRootRouterState();
 
   static _FlitRootRouterState of(BuildContext context) {
-    final _FlitRootRouterScope? scope =
+    final _FlitRootRouterScope /* nullable */ scope =
         context.dependOnInheritedWidgetOfExactType<_FlitRootRouterScope>();
     assert(() {
       if (scope == null) {
@@ -36,13 +36,13 @@ class FlitRootRouter extends StatefulWidget {
       }
       return true;
     }());
-    return scope!.flitRootRouterState;
+    return scope.flitRootRouterState;
   }
 }
 
 class _FlitRootRouterState extends State<FlitRootRouter> {
-  late final RouterDelegate<RouteMatch> delegate;
-  late final RouteInformationParser<RouteMatch> parser;
+  /* late final */ RouterDelegate<RouteMatch> delegate;
+  /* late final */ RouteInformationParser<RouteMatch> parser;
 
   @override
   void initState() {
@@ -72,7 +72,9 @@ class _FlitRootRouterState extends State<FlitRootRouter> {
 // FlitRouter for child (nested) router. Root router and child router can have common interface so that a user can look up with FlitRouter.of(context).
 class FlitRouter extends StatefulWidget {
   FlitRouter(
-      {Key? key, required this.routes, required this.backButtonDispatcher})
+      {Key /* nullable */ key,
+      @required this.routes,
+      @required this.backButtonDispatcher})
       : super(key: key);
 
   final FlitRoutes routes;
@@ -87,8 +89,8 @@ class FlitRouter extends StatefulWidget {
 }
 
 class _FlitRouterState extends State<FlitRouter> {
-  late final FlitRouterDelegate routerDelegate;
-  late final RouteInformationParser routeInformationParser;
+  /* late final */ FlitRouterDelegate routerDelegate;
+  /* late final */ RouteInformationParser routeInformationParser;
 
   void navigateTo(RoutePath routePath) {
     widget.routes.handleNavigating(routePath);
@@ -118,7 +120,9 @@ class _FlitRouterState extends State<FlitRouter> {
 
 class _FlitRouterScope extends InheritedWidget {
   _FlitRouterScope(
-      {Key? key, required this.flitRouterState, required Widget child})
+      {Key /* nullable */ key,
+      @required this.flitRouterState,
+      @required Widget child})
       : super(key: key, child: child);
 
   final _FlitRouterState flitRouterState;
@@ -131,7 +135,9 @@ class _FlitRouterScope extends InheritedWidget {
 
 class _FlitRootRouterScope extends InheritedWidget {
   _FlitRootRouterScope(
-      {Key? key, required this.flitRootRouterState, required Widget child})
+      {Key /* nullable */ key,
+      @required this.flitRootRouterState,
+      @required Widget child})
       : super(key: key, child: child);
 
   final _FlitRootRouterState flitRootRouterState;
