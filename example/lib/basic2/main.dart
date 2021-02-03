@@ -32,7 +32,7 @@ class _BooksAppState extends State<BooksApp> {
               to: (match) => [
                 BooksRouteController(),
                 BookRouteController(
-                    BookPath(id: match.matchedParameters[':id']!)),
+                    BookPath(id: match.matchedParameters[':id'])),
               ],
             ),
             FlitRoute(

@@ -1,21 +1,18 @@
 name: flit_router
-description: A new Flutter package project.
+description: A concise, cohesive, type-safe, web-aware router built on top of Flutter Navigator 2.0.
 version: 0.0.1
-author:
-homepage:
-publish_to: none
+homepage: https://github.com/polyflection/flit_router
 
 environment:
-  sdk: ">=2.12.0-133.2.beta <3.0.0"
+  sdk: ">=2.9.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  trie_router:
-    git: https://github.com/ntaoo/trie_router
-  quiver: ^3.0.0-nullsafety.3
-  tuple: ^2.0.0-nullsafety.0
+  trie_router: ^1.0.0
+  quiver: ^2.0.0
+  tuple: ^1.0.0
 
 dev_dependencies:
   flutter_test:

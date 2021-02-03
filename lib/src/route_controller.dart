@@ -29,10 +29,10 @@ abstract class RouteControllerBase<T extends RoutePathBase> {
 
 class RouteController extends RouteControllerBase<RoutePathBase> {
   RouteController({
-    required this.page,
-    required this.routePath,
-    PopRouteWithNavigator? popRoute,
-    PopPageCallback? onPopPage,
+    @required this.page,
+    @required this.routePath,
+    PopRouteWithNavigator /* nullable */ popRoute,
+    PopPageCallback /* nullable */ onPopPage,
   })  : _popRoute = popRoute,
         _onPopPage = onPopPage;
 
@@ -40,8 +40,8 @@ class RouteController extends RouteControllerBase<RoutePathBase> {
   final Page page;
   @override
   final RoutePathBase routePath;
-  final PopRouteWithNavigator? _popRoute;
-  final PopPageCallback? _onPopPage;
+  final PopRouteWithNavigator /* nullable */ _popRoute;
+  final PopPageCallback /* nullable */ _onPopPage;
 
   @override
   PopRouteWithNavigator get popRoute => _popRoute ?? super.popRoute;

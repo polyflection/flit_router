@@ -1,6 +1,6 @@
 # flit_router
 
-A router built on to of Navigator 2.0, that provides concise, cohesive, type safe API, (hopefully) without losing functionality and flexibility of Navigator 2.0.
+A concise, cohesive, type-safe, web-aware router built on top of Flutter Navigator 2.0, (hopefully) without losing the functionality and flexibility.
 
 # Example
 
@@ -76,7 +76,3 @@ The [example](example/lib/basic2/main.dart).
   - example: app with sign-in and auth validation required area.
   - example: Youtube clone for complex routing case.
   - example: Page transition animation (in particular, hero animation).
-
-# Known issue
-
-- Back and Forward button on web does not work (setNewRoutePath is not called) for some reason. -> This bug was in Flutter framework side, which has already fixed at "Flutter 1.26.0-18.0.pre.128 • channel master".

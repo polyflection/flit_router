@@ -10,9 +10,10 @@ class BooksPath extends RoutePathBase with NullRouteState {
 }
 
 class BookPath extends RoutePathBase with NullRouteState {
-  BookPath({required this.id});
+  BookPath({@required this.id});
   final String id;
-  late final Uri uri = Uri(pathSegments: [...BooksPath.pathSegments, id]);
+  /* late final */ Uri get uri =>
+      Uri(pathSegments: [...BooksPath.pathSegments, id]);
   // TODO: a RoutePatternBuilder would be helpful.
   static String get pattern => BooksPath.pattern + '/' + ':id';
 }
@@ -38,7 +39,7 @@ class BookRouteController extends RouteControllerBase<BookPath> {
 }
 
 class BooksListScreen extends StatelessWidget {
-  BooksListScreen({Key? key}) : super(key: key);
+  BooksListScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class BooksListScreen extends StatelessWidget {
 class BookDetailsScreen extends StatelessWidget {
   final String bookId;
 
-  BookDetailsScreen({required this.bookId});
+  BookDetailsScreen({@required this.bookId});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,7 @@ class BookDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },

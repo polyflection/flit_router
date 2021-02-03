@@ -45,8 +45,8 @@ class _BooksAppState extends State<BooksApp> {
                     RoutePath.fromRawLocation(location: '/books'),
                   ),
                   RouteController(
-                    page: BookDetailsPage(
-                        bookId: match.matchedParameters[':id']!),
+                    page:
+                        BookDetailsPage(bookId: match.matchedParameters[':id']),
                     routePath: match.path,
                   )
                 ];
@@ -75,7 +75,7 @@ class _BooksAppState extends State<BooksApp> {
 class BookDetailsPage extends Page {
   final String bookId;
 
-  BookDetailsPage({required this.bookId}) : super(key: ValueKey(bookId));
+  BookDetailsPage({@required this.bookId}) : super(key: ValueKey(bookId));
 
   Route createRoute(BuildContext context) {
     return MaterialPageRoute(
@@ -91,7 +91,7 @@ class BookDetailsPage extends Page {
 class BooksListScreen extends StatelessWidget {
   final List<Book> books;
 
-  BooksListScreen({required this.books});
+  BooksListScreen({@required this.books});
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +117,9 @@ class BooksListScreen extends StatelessWidget {
 }
 
 class BookDetailsScreen extends StatelessWidget {
-  final Book? book;
+  final Book /* nullable */ book;
 
-  BookDetailsScreen({required this.book});
+  BookDetailsScreen({@required this.book});
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +131,8 @@ class BookDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (book != null) ...[
-              Text(book!.title, style: Theme.of(context).textTheme.headline6),
-              Text(book!.author, style: Theme.of(context).textTheme.subtitle1),
+              Text(book.title, style: Theme.of(context).textTheme.headline6),
+              Text(book.author, style: Theme.of(context).textTheme.subtitle1),
             ],
           ],
         ),

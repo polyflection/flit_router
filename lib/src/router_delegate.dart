@@ -16,11 +16,11 @@ class FlitRouterDelegate extends RouterDelegate<RouteMatch>
 
   @override
   Future<void> setNewRoutePath(RouteMatch routeMatch) async {
-    if (routeMatch != _routes.currentRouteAndMatch!.item2) {
+    if (routeMatch != _routes.currentRouteAndMatch.item2) {
       throw StateError('Went wrong.');
     }
-    await _routes.currentRouteAndMatch!.item1
-        .onNewRouteFromPlatform(routeMatch);
+
+    await _routes.currentRouteAndMatch.item1.onNewRouteFromPlatform(routeMatch);
   }
 
   RouteMatch get currentConfiguration {
@@ -35,7 +35,7 @@ class FlitRouterDelegate extends RouterDelegate<RouteMatch>
 
   @override
   Future<bool> popRoute() {
-    final NavigatorState? navigator = navigatorKey.currentState;
+    final NavigatorState navigator = navigatorKey.currentState;
     if (navigator == null) return SynchronousFuture<bool>(false);
     return _routes.currentRouteController.popRoute(navigator);
   }
@@ -51,7 +51,7 @@ class FlitRouterDelegate extends RouterDelegate<RouteMatch>
         final isPopped =
             _routes.currentRouteController.onPopPage(route, result);
         if (isPopped) {
-          _routes.currentRouteControllerStack!.removeLast();
+          _routes.currentRouteControllerStack.removeLast();
           notifyListeners();
         }
         return isPopped;

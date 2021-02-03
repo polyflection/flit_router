@@ -3,11 +3,11 @@ import 'route_path.dart';
 
 class RouteMatch {
   RouteMatch({
-    required this.path,
-    required this.pathPattern,
-    required this.matchedParameters,
-    required this.matchedPortionOfPath,
-    required this.exact,
+    @required this.path,
+    @required this.pathPattern,
+    @required this.matchedParameters,
+    @required this.matchedPortionOfPath,
+    @required this.exact,
   });
 
   final RoutePathBase path;
@@ -28,7 +28,7 @@ class RouteMatch {
     throw UnimplementedError();
   }
 
-  RouteMatch? parent(BuildContext context) {
+  RouteMatch /* nullable */ parent(BuildContext context) {
     throw UnimplementedError();
   }
 
