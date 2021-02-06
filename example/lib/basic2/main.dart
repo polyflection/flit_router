@@ -18,7 +18,7 @@ class BooksApp extends StatefulWidget {
 class _BooksAppState extends State<BooksApp> {
   @override
   Widget build(BuildContext context) {
-    return FlitRootRouter(
+    return FlitRouter.forRoot(
       key: ValueKey('root'),
       routes: FlitRoutes(
         builder: () {

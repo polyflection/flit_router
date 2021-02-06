@@ -10,22 +10,19 @@ typedef AppBuilder = Widget Function(
     RouterDelegate<RouteMatch> delegate,
     RouteInformationParser<RouteMatch> parser);
 
-class FlitRootRouter extends StatefulWidget {
-  FlitRootRouter(
-      {Key key, @required FlitRoutes routes, @required AppBuilder appBuilder})
-      : _routes = routes,
-        _appBuilder = appBuilder,
-        super(key: key);
+abstract class FlitRouter implements StatefulWidget {
+  factory FlitRouter.forRoot(
+          {Key key,
+          @required FlitRoutes routes,
+          @required AppBuilder appBuilder}) =>
+      _FlitRootRouter(key: key, routes: routes, appBuilder: appBuilder);
 
-  final FlitRoutes _routes;
-  final AppBuilder _appBuilder;
+  factory FlitRouter({Key key, @required FlitRoutes routes}) =>
+      _FlitChildRouter(key: key, routes: routes);
 
-  @override
-  _FlitRootRouterState createState() => _FlitRootRouterState();
-
-  static _FlitRootRouterState of(BuildContext context) {
-    final _FlitRootRouterScope /* nullable */ scope =
-        context.dependOnInheritedWidgetOfExactType<_FlitRootRouterScope>();
+  static _FlitRouterState of(BuildContext context) {
+    final _FlitRouterScope /* nullable */ scope =
+        context.dependOnInheritedWidgetOfExactType<_FlitRouterScope>();
     assert(() {
       if (scope == null) {
         // TODO: change error type.
@@ -36,70 +33,42 @@ class FlitRootRouter extends StatefulWidget {
       }
       return true;
     }());
-    return scope.flitRootRouterState;
+    return scope.flitRouterState;
+  }
+
+  @protected
+  FlitRoutes get routes;
+}
+
+mixin _FlitRouterState<T extends FlitRouter> on State<T> {
+  /// TODO: Is it helpful if navigateToUri() or navigateToString() is available?
+  void navigateTo(RoutePathBase routePath) {
+    widget.routes.handleNavigating(routePath);
   }
 }
 
-class _FlitRootRouterState extends State<FlitRootRouter> {
+class _FlitRootRouter extends StatefulWidget implements FlitRouter {
+  _FlitRootRouter({Key key, @required this.routes, @required this.appBuilder})
+      : super(key: key);
+
+  @override
+  final FlitRoutes routes;
+  final AppBuilder appBuilder;
+
+  @override
+  _FlitRootRouterState createState() => _FlitRootRouterState();
+}
+
+class _FlitRootRouterState extends State<_FlitRootRouter>
+    with _FlitRouterState<_FlitRootRouter> {
   /* late final */ RouterDelegate<RouteMatch> delegate;
   /* late final */ RouteInformationParser<RouteMatch> parser;
 
   @override
   void initState() {
     super.initState();
-    delegate = FlitRouterDelegate(widget._routes);
-    parser = _FlitRouteInformationParser(widget._routes);
-  }
-
-  /// TODO: Is it helpful if navigateToUri() or navigateToString() is available?
-  void navigateTo(RoutePathBase routePath) {
-    widget._routes.handleNavigating(routePath);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _FlitRootRouterScope(
-      flitRootRouterState: this,
-      child: Builder(
-        builder: (context) {
-          return widget._appBuilder(context, delegate, parser);
-        },
-      ),
-    );
-  }
-}
-
-// FlitRouter for child (nested) router. Root router and child router can have common interface so that a user can look up with FlitRouter.of(context).
-class FlitRouter extends StatefulWidget {
-  FlitRouter(
-      {Key /* nullable */ key,
-      @required this.routes,
-      @required this.backButtonDispatcher})
-      : super(key: key);
-
-  final FlitRoutes routes;
-  final BackButtonDispatcher backButtonDispatcher;
-
-  @override
-  _FlitRouterState createState() => _FlitRouterState();
-
-  static _FlitRouterState of(BuildContext context) {
-    throw UnimplementedError('Unimplemented');
-  }
-}
-
-class _FlitRouterState extends State<FlitRouter> {
-  /* late final */ FlitRouterDelegate routerDelegate;
-  /* late final */ RouteInformationParser routeInformationParser;
-
-  void navigateTo(RoutePath routePath) {
-    widget.routes.handleNavigating(routePath);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    routerDelegate = FlitRouterDelegate(widget.routes);
+    delegate = FlitRouterDelegate(widget.routes);
+    parser = _FlitRouteInformationParser(widget.routes);
   }
 
   @override
@@ -108,10 +77,40 @@ class _FlitRouterState extends State<FlitRouter> {
       flitRouterState: this,
       child: Builder(
         builder: (context) {
-          return Router(
-            routerDelegate: routerDelegate,
-            backButtonDispatcher: widget.backButtonDispatcher,
-          );
+          return widget.appBuilder(context, delegate, parser);
+        },
+      ),
+    );
+  }
+}
+
+// FlitRouter for child (nested) router. Root router and child router can have common interface so that a user can look up with FlitRouter.of(context).
+class _FlitChildRouter extends StatefulWidget implements FlitRouter {
+  _FlitChildRouter({Key key, @required this.routes}) : super(key: key);
+  final FlitRoutes routes;
+
+  @override
+  _FlitChildRouterState createState() => _FlitChildRouterState();
+}
+
+class _FlitChildRouterState extends State<_FlitChildRouter>
+    with _FlitRouterState<_FlitChildRouter> {
+  /* late final */ RouterDelegate<RouteMatch> delegate;
+
+  @override
+  void initState() {
+    super.initState();
+    delegate = FlitRouterDelegate(widget.routes);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _FlitRouterScope(
+      flitRouterState: this,
+      child: Builder(
+        builder: (context) {
+          // TODO: backButtonDispatcher.
+          return Router(routerDelegate: delegate);
         },
       ),
     );
@@ -131,21 +130,6 @@ class _FlitRouterScope extends InheritedWidget {
   // Is it really this rule?
   bool updateShouldNotify(_FlitRouterScope old) =>
       flitRouterState != old.flitRouterState;
-}
-
-class _FlitRootRouterScope extends InheritedWidget {
-  _FlitRootRouterScope(
-      {Key /* nullable */ key,
-      @required this.flitRootRouterState,
-      @required Widget child})
-      : super(key: key, child: child);
-
-  final _FlitRootRouterState flitRootRouterState;
-
-  @override
-  // Is it really this rule?
-  bool updateShouldNotify(_FlitRootRouterScope old) =>
-      flitRootRouterState != old.flitRootRouterState;
 }
 
 class _FlitRouteInformationParser extends RouteInformationParser<RouteMatch> {

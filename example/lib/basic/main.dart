@@ -16,7 +16,7 @@ class BooksApp extends StatefulWidget {
 class _BooksAppState extends State<BooksApp> {
   @override
   Widget build(BuildContext context) {
-    return FlitRootRouter(
+    return FlitRouter.forRoot(
       key: ValueKey('root'),
       routes: FlitRoutes(
         builder: () {
@@ -106,7 +106,7 @@ class BooksListScreen extends StatelessWidget {
               title: Text(book.title),
               subtitle: Text(book.author),
               onTap: () {
-                FlitRootRouter.of(context).navigateTo(
+                FlitRouter.of(context).navigateTo(
                     RoutePath(uri: Uri(pathSegments: ['books', book.id])));
               },
             )

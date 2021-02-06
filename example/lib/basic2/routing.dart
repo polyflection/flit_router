@@ -56,7 +56,7 @@ class BooksListScreen extends StatelessWidget {
               title: Text(book.title),
               subtitle: Text(book.author),
               onTap: () {
-                FlitRootRouter.of(context).navigateTo(BookPath(id: book.id));
+                FlitRouter.of(context).navigateTo(BookPath(id: book.id));
               },
             )
         ],
